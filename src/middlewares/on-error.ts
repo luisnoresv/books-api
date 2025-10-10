@@ -12,12 +12,9 @@ export const onError: ErrorHandler = (err, c) => {
 			: INTERNAL_SERVER_ERROR;
 
 	const env = c.env?.NODE_ENV || process.env?.NODE_ENV;
-	return c.json(
-		{
-			message: err.message,
-
-			stack: env === 'production' ? undefined : err.stack,
-		},
-		statusCode
-	);
+	return c.json({
+		message: err.message,
+		stack: env === 'production' ? undefined : err.stack,
+		status: statusCode,
+	});
 };

@@ -23,7 +23,6 @@ describe('Books list', () => {
 		const client = testClient(createApp().route('/', booksRouter));
 		const response = await client.books[':id'].$get({
 			param: {
-				// @ts-expect-error
 				id: 'wat',
 			},
 		});

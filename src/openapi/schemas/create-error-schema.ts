@@ -3,9 +3,7 @@ import { z } from '@hono/zod-openapi';
 import type { ZodSchema } from '@/lib/types';
 
 export const createErrorSchema = <T extends ZodSchema>(schema: T) => {
-	const { error } = schema.safeParse(
-		schema._def.typeName === z.ZodFirstPartyTypeKind.ZodArray ? [] : {}
-	);
+	const { error } = schema.safeParse(schema instanceof z.ZodArray ? [] : {});
 	return z.object({
 		success: z.boolean().openapi({
 			example: false,

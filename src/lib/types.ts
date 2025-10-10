@@ -7,9 +7,9 @@ import type {
 import type { PinoLogger } from 'hono-pino';
 
 export type ZodSchema =
-	| z.ZodUnion<z.ZodUnionOptions>
-	| z.AnyZodObject
-	| z.ZodArray<z.AnyZodObject>;
+	| z.ZodUnion<[z.ZodTypeAny, ...z.ZodTypeAny[]]>
+	| z.ZodObject<any>
+	| z.ZodArray<z.ZodObject<any>>;
 
 export interface AppBindings {
 	Variables: {
