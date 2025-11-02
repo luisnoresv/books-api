@@ -29,3 +29,4 @@ lerna-debug.log*
 
 # Database files
 dev.db
+migrations/

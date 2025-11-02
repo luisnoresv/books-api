@@ -1,4 +1,3 @@
-import { sql } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
@@ -6,11 +5,13 @@ export const books = sqliteTable('books', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	name: text('name').notNull(),
 	isbn: text('isbn').notNull(),
-	createdAt: text('created_at')
-		.default(sql`(CURRENT_TIMESTAMP)`)
+	// Store timestamps as integer milliseconds since epoch for better type-safety
+	// Use Drizzle-side default and update functions to avoid DB-specific functions in Studio Runner
+	createdAt: integer('created_at', { mode: 'timestamp' })
+		.$defaultFn(() => new Date())
 		.notNull(),
 	updateAt: integer('updated_at', { mode: 'timestamp' })
-		.default(sql`(CURRENT_TIMESTAMP)`)
+		.$defaultFn(() => new Date())
 		.$onUpdate(() => new Date()),
 });
 
