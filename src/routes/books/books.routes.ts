@@ -14,7 +14,7 @@ import { createRoute, z } from '@hono/zod-openapi';
 
 const tags = ['Books'];
 
-export const list = createRoute({
+const list = createRoute({
 	path: '/books',
 	method: 'get',
 	tags,
@@ -26,7 +26,7 @@ export const list = createRoute({
 	},
 });
 
-export const create = createRoute({
+const create = createRoute({
 	path: '/books',
 	method: 'post',
 	request: {
@@ -42,7 +42,7 @@ export const create = createRoute({
 	},
 });
 
-export const getOne = createRoute({
+const getOne = createRoute({
 	path: '/books/{id}',
 	method: 'get',
 	request: {
@@ -69,7 +69,7 @@ export const getOne = createRoute({
 	},
 });
 
-export const patch = createRoute({
+const patch = createRoute({
 	path: '/books/{id}',
 	method: 'patch',
 	request: {
@@ -87,7 +87,7 @@ export const patch = createRoute({
 	},
 });
 
-export const remove = createRoute({
+const remove = createRoute({
 	path: '/books/{id}',
 	method: 'delete',
 	request: {
@@ -104,8 +104,12 @@ export const remove = createRoute({
 	},
 });
 
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
-export type GetOneRoute = typeof getOne;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;
+export const booksRoutes = {
+	list,
+	create,
+	getOne,
+	patch,
+	remove,
+};
+
+export type BooksRoutes = typeof booksRoutes;

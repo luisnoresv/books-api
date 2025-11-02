@@ -4,26 +4,20 @@ import type { AppRouteHandler } from '@/lib/types';
 import * as HttpStatusCodes from '@/openapi/http-status-codes';
 import * as HttpStatusPhrases from '@/openapi/http-status-phrases';
 import { eq } from 'drizzle-orm';
-import type {
-	CreateRoute,
-	GetOneRoute,
-	ListRoute,
-	PatchRoute,
-	RemoveRoute,
-} from './books.routes';
+import type { BooksRoutes } from './books.routes';
 
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+const list: AppRouteHandler<BooksRoutes['list']> = async (c) => {
 	const books = await db.query.books.findMany();
 	return c.json(books);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
+const create: AppRouteHandler<BooksRoutes['create']> = async (c) => {
 	const book = c.req.valid('json');
 	const [inserted] = await db.insert(books).values(book).returning();
 	return c.json(inserted, HttpStatusCodes.OK);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
+const getOne: AppRouteHandler<BooksRoutes['getOne']> = async (c) => {
 	const { id } = c.req.valid('param');
 	const book = await db.query.books.findFirst({
 		where(fields, operators) {
@@ -41,7 +35,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 	return c.json(book, HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (c) => {
+const patch: AppRouteHandler<BooksRoutes['patch']> = async (c) => {
 	const { id } = c.req.valid('param');
 	const updates = c.req.valid('json');
 	const [book] = await db
@@ -60,7 +54,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
 	return c.json(book, HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
+const remove: AppRouteHandler<BooksRoutes['remove']> = async (c) => {
 	const { id } = c.req.valid('param');
 
 	const result = await db.delete(books).where(eq(books.id, id));
@@ -73,4 +67,12 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
 	}
 
 	return c.body(null, HttpStatusCodes.NO_CONTENT);
+};
+
+export const booksHandlers = {
+	list,
+	create,
+	getOne,
+	patch,
+	remove,
 };

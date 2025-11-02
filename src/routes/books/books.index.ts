@@ -1,11 +1,10 @@
 import { createRouter } from '@/lib/create-app';
-
-import * as handlers from './books.handlers';
-import * as routes from './books.routes';
+import { booksHandlers } from './books.handlers';
+import { booksRoutes } from './books.routes';
 
 export const booksRouter = createRouter()
-	.openapi(routes.list, handlers.list)
-	.openapi(routes.create, handlers.create)
-	.openapi(routes.getOne, handlers.getOne)
-	.openapi(routes.patch, handlers.patch)
-	.openapi(routes.remove, handlers.remove);
+	.openapi(booksRoutes.list, booksHandlers.list)
+	.openapi(booksRoutes.create, booksHandlers.create)
+	.openapi(booksRoutes.getOne, booksHandlers.getOne)
+	.openapi(booksRoutes.patch, booksHandlers.patch)
+	.openapi(booksRoutes.remove, booksHandlers.remove);

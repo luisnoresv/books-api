@@ -1,6 +1,6 @@
 import type { AppOpenAPI } from './types.js';
 
-import { apiReference } from '@scalar/hono-api-reference';
+import { Scalar } from '@scalar/hono-api-reference';
 import packageJSON from '../../package.json';
 
 export function configureOpenAPI(app: AppOpenAPI) {
@@ -12,17 +12,16 @@ export function configureOpenAPI(app: AppOpenAPI) {
 		},
 	});
 
-	app.get(
-		'/reference',
-		apiReference({
-			theme: 'fastify',
-			defaultHttpClient: {
-				targetKey: 'javascript',
-				clientKey: 'fetch',
-			},
-			spec: {
-				url: '/doc',
-			},
-		})
-	);
+	const reference = Scalar({
+		theme: 'fastify',
+		defaultHttpClient: {
+			targetKey: 'js',
+			clientKey: 'fetch',
+		},
+		spec: {
+			url: '/doc',
+		},
+	} as any) as unknown as import('hono').MiddlewareHandler;
+
+	app.get('/reference', reference);
 }
