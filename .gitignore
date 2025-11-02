@@ -28,5 +28,5 @@ lerna-debug.log*
 .DS_Store
 
 # Database files
-dev.db
-migrations/
+*.db
+src/db/migrations/
