@@ -3,7 +3,7 @@ import {
 	patchBooksSchema,
 	selectBooksSchema,
 } from '@/db/schema';
-import { notFoundSchema } from '@/lib/constants';
+import { internalServerErrorSchema, notFoundSchema } from '@/lib/constants';
 import jsonContent from '@/openapi/helpers/json-content';
 import jsonContentOneOf from '@/openapi/helpers/json-content-one-of';
 import jsonContentRequired from '@/openapi/helpers/json-content-required';
@@ -23,6 +23,10 @@ const list = createRoute({
 			z.array(selectBooksSchema),
 			'The list of books'
 		),
+		[HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+			internalServerErrorSchema,
+			'Internal Server Error'
+		),
 	},
 });
 
@@ -38,6 +42,10 @@ const create = createRoute({
 		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
 			createErrorSchema(insertBooksSchema),
 			'The validation error(s)'
+		),
+		[HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+			internalServerErrorSchema,
+			'Internal Server Error'
 		),
 	},
 });
@@ -66,6 +74,10 @@ const getOne = createRoute({
 			createErrorSchema(IdParamsSchema),
 			'Invalid id error'
 		),
+		[HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+			internalServerErrorSchema,
+			'Internal Server Error'
+		),
 	},
 });
 
@@ -84,6 +96,10 @@ const patch = createRoute({
 			createErrorSchema(IdParamsSchema),
 			'Invalid id error'
 		),
+		[HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+			internalServerErrorSchema,
+			'Internal Server Error'
+		),
 	},
 });
 
@@ -100,6 +116,10 @@ const remove = createRoute({
 		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContentOneOf(
 			[createErrorSchema(patchBooksSchema), createErrorSchema(IdParamsSchema)],
 			'The validation error(s)'
+		),
+		[HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+			internalServerErrorSchema,
+			'Internal Server Error'
 		),
 	},
 });

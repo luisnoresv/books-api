@@ -4,3 +4,7 @@ import { createMessageObjectSchema } from '@/openapi/schemas/create-message-obje
 export const notFoundSchema = createMessageObjectSchema(
 	HttpStatusPhrases.NOT_FOUND
 );
+
+export const internalServerErrorSchema = createMessageObjectSchema(
+	HttpStatusPhrases.INTERNAL_SERVER_ERROR
+);

@@ -11,7 +11,7 @@ const EnvSchema = z
 		LOG_LEVEL: z
 			.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])
 			.default('info'),
-		DATABASE_URL: z.string().url(),
+		DATABASE_URL: z.url(),
 		DATABASE_AUTH_TOKEN: z.string().optional(),
 	})
 	.superRefine((input, ctx) => {

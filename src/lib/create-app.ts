@@ -1,9 +1,9 @@
 import { customLogger } from '@/middlewares/custom-logger.js';
 import { notFound } from '@/middlewares/not-found.js';
-import { onError } from '@/middlewares/on-error.js';
 import { serveEmojiFavicon } from '@/middlewares/server-emoji-favicon.js';
 import { defaultHook } from '@/openapi/default-hook.js';
 import { OpenAPIHono } from '@hono/zod-openapi';
+import { errorHandlerMiddleware } from './error-handler.js';
 import type { AppBindings, AppOpenAPI } from './types.js';
 
 export function createRouter() {
@@ -21,7 +21,7 @@ export function createApp() {
 	app.use(customLogger());
 
 	app.notFound(notFound);
-	app.onError(onError);
+	app.onError(errorHandlerMiddleware);
 
 	return app;
 }
