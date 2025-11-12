@@ -1,6 +1,6 @@
 # Books API
 
-A modern RESTful API for managing books built with Bun, Hono, TypeScript, Drizzle ORM, and Turso (libSQL).
+A modern RESTful API built with Bun, Hono, Drizzle ORM, and Turso(LibSQL). Features type-safe schemas with Zod, interactive API documentation with Scalar, and structured logging with Pino.
 
 ## Features
 
@@ -189,11 +189,11 @@ books-api/
 │   │   ├── configure-open-api.ts # OpenAPI configuration
 │   │   ├── constants.ts          # Shared constants
 │   │   ├── create-app.ts         # Hono app factory with middlewares
+│   │   ├── error-handler.ts      # Global error handler
 │   │   └── types.ts              # Shared TypeScript types
 │   ├── middlewares/
 │   │   ├── custom-logger.ts      # Pino logging middleware
 │   │   ├── not-found.ts          # 404 handler
-│   │   ├── on-error.ts           # Global error handler
 │   │   └── server-emoji-favicon.ts # Favicon middleware
 │   ├── openapi/
 │   │   ├── default-hook.ts       # Default OpenAPI hooks

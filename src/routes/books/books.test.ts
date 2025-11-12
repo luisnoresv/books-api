@@ -7,15 +7,19 @@ describe('Books list', () => {
 	it('should return a list of books', async () => {
 		const testRouter = createTestApp(booksRouter);
 		const response = await testRouter.request('/books');
+		expect(response.status).toBe(200);
 		const result = await response.json();
-		// @ts-expect-error
-		expectTypeOf(result).toBeArray();
+		expect(Array.isArray(result)).toBe(true);
 	});
 
 	it('should return a list of books on client', async () => {
 		const client = testClient(createApp().route('/', booksRouter));
 		const response = await client.books.$get();
+		expect(response.status).toBe(200);
 		const json = await response.json();
+		if ('message' in json) {
+			throw new Error('Expected array but got error object');
+		}
 		expectTypeOf(json).toBeArray();
 	});
 
