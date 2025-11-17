@@ -31,6 +31,8 @@ export const insertBooksSchema = createInsertSchema(books, {
 
 export const patchBooksSchema = insertBooksSchema.partial();
 // --------------------------------
+
+// Auth-related schemas
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
@@ -104,3 +106,4 @@ export const verification = sqliteTable('verification', {
 		.$onUpdate(() => /* @__PURE__ */ new Date())
 		.notNull(),
 });
+// --------------------------------

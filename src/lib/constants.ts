@@ -8,3 +8,5 @@ export const notFoundSchema = createMessageObjectSchema(
 export const internalServerErrorSchema = createMessageObjectSchema(
 	HttpStatusPhrases.INTERNAL_SERVER_ERROR
 );
+
+export const API_PATH = '/api';

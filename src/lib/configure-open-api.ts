@@ -2,9 +2,12 @@ import type { AppOpenAPI } from './types.js';
 
 import { Scalar } from '@scalar/hono-api-reference';
 import packageJSON from '../../package.json';
+import { API_PATH } from './constants.js';
+
+const OPEN_API_PATH = `${API_PATH}/doc`;
 
 export function configureOpenAPI(app: AppOpenAPI) {
-	app.doc('/doc', {
+	app.doc(OPEN_API_PATH, {
 		openapi: '3.0.0',
 		info: {
 			version: packageJSON.version,
@@ -19,9 +22,9 @@ export function configureOpenAPI(app: AppOpenAPI) {
 			clientKey: 'fetch',
 		},
 		spec: {
-			url: '/doc',
+			url: OPEN_API_PATH,
 		},
 	} as any) as unknown as import('hono').MiddlewareHandler;
 
-	app.get('/reference', reference);
+	app.get(`${API_PATH}/reference`, reference);
 }

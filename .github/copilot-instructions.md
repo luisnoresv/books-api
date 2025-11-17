@@ -74,7 +74,7 @@ export const books = sqliteTable('books', {
 ### Import Aliases
 
 - Use `@/` for all imports from `src/`: `import { db } from '@/db'`
-- Always include `.js` extension in import paths (ESM requirement)
+- Omit the `.js` extension in import paths (e.g., `import { db } from '@/db'`)
 
 ### Environment Variables
 
