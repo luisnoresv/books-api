@@ -35,39 +35,7 @@ src/routes/[feature]/
 
 ### Database Workflow (Drizzle)
 
-**Development (Recommended):**
-
-1. Modify `src/db/schema.ts` table definitions
-2. Run `bun run db:push` to apply changes directly to database
-   - Pushes schema changes without generating migration files
-   - Fast iteration during development
-   - Use `bun run db:studio` to visually inspect changes
-
-**Production (Required):**
-
-1. Modify `src/db/schema.ts` table definitions
-2. Run `bun run db:generate` to create versioned SQL migration files
-3. Run `bun run db:migrate` to apply migrations to production database
-   - Generates timestamped migrations in `src/db/migrations/`
-   - Maintains migration history for rollbacks and auditing
-   - **Never use `db:push` in production** - it bypasses migration tracking
-
-**Critical Convention**: Timestamps use `integer({ mode: 'timestamp' })` with `$defaultFn(() => new Date())` instead of SQL `default(sql'...')` for Drizzle Studio compatibility.
-
-**Example Schema Pattern:**
-
-```typescript
-export const books = sqliteTable('books', {
-	id: integer().primaryKey({ autoIncrement: true }),
-	name: text().notNull(),
-	createdAt: integer({ mode: 'timestamp' })
-		.$defaultFn(() => new Date())
-		.notNull(),
-	updatedAt: integer({ mode: 'timestamp' })
-		.$defaultFn(() => new Date())
-		.$onUpdate(() => new Date()),
-});
-```
+See the `drizzle-migrations` skill for the full dev/production workflow, timestamp conventions, and schema examples.
 
 ## Code Patterns & Conventions
 
@@ -97,7 +65,7 @@ export const create = createRoute({
 		[HttpStatusCodes.OK]: jsonContent(selectBooksSchema, 'Success'),
 		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
 			createErrorSchema(insertBooksSchema),
-			'Validation errors'
+			'Validation errors',
 		),
 	},
 });
@@ -176,7 +144,7 @@ const getOne: AppRouteHandler<BooksRoutes['getOne']> = async (c) => {
 	if (!book) {
 		return c.json(
 			{ message: HttpStatusPhrases.NOT_FOUND },
-			HttpStatusCodes.NOT_FOUND
+			HttpStatusCodes.NOT_FOUND,
 		);
 	}
 
@@ -186,12 +154,7 @@ const getOne: AppRouteHandler<BooksRoutes['getOne']> = async (c) => {
 
 ## Authentication & Authorization
 
-**Planned**: Better Auth integration (not yet implemented)
-
-- Future authentication will use Better Auth library
-- When implementing, add auth middleware to route chains before handlers
-- Protected routes should validate session/token in middleware layer
-- Follow Better Auth + Hono integration patterns
+Better Auth is already wired up (`src/lib/auth.ts`, mounted at `/api/auth/*`). See the `better-auth-integration` skill for protecting routes and auth table conventions.
 
 ## Important Notes
 
@@ -203,9 +166,4 @@ const getOne: AppRouteHandler<BooksRoutes['getOne']> = async (c) => {
 
 ## When Adding New Features
 
-1. Define schema in `src/db/schema.ts` (table + Zod validators)
-2. Run `bun run db:push` to apply schema
-3. Create `src/routes/[feature]/` directory
-4. Implement routes → handlers → router following books pattern
-5. Register router in `src/app.ts` routes array
-6. Write tests using `testClient` pattern
+See the `new-feature-scaffold` skill for the full schema → routes → handlers → router → tests procedure.
