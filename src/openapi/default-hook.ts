@@ -1,5 +1,5 @@
 import type { Hook } from '@hono/zod-openapi';
-import { UNPROCESSABLE_ENTITY } from './http-status-codes';
+import { BAD_REQUEST } from './http-status-codes';
 
 export const defaultHook: Hook<any, any, any, any> = (result, c) => {
 	if (!result.success) {
@@ -8,7 +8,7 @@ export const defaultHook: Hook<any, any, any, any> = (result, c) => {
 				success: result.success,
 				error: result.error,
 			},
-			UNPROCESSABLE_ENTITY
+			BAD_REQUEST
 		);
 	}
 };
