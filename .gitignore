@@ -30,3 +30,5 @@ lerna-debug.log*
 # Database files
 *.db
 src/db/migrations/
+# Local Pi runtime state
+.atl/
