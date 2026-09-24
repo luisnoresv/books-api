@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "typecheck": "bunx tsc --noEmit",
     "test": "LOG_LEVEL=silent vitest",
     "db:setup": "npm run db:push",
     "db:generate": "drizzle-kit generate",

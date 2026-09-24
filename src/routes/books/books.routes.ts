@@ -39,7 +39,7 @@ const create = createRoute({
 	tags,
 	responses: {
 		[HttpStatusCodes.OK]: jsonContent(selectBooksSchema, 'The created books'),
-		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+		[HttpStatusCodes.BAD_REQUEST]: jsonContent(
 			createErrorSchema(insertBooksSchema),
 			'The validation error(s)'
 		),
@@ -59,18 +59,8 @@ const getOne = createRoute({
 	tags,
 	responses: {
 		[HttpStatusCodes.OK]: jsonContent(selectBooksSchema, 'The requested book'),
-		// [HttpStatusCodes.NOT_FOUND]: jsonContent(
-		// 	z
-		// 		.object({
-		// 			message: z.string(),
-		// 		})
-		// 		.openapi({
-		// 			example: { message: 'Book not found' },
-		// 		}),
-		// 	'The requested book'
-		// ),
 		[HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Book not found'),
-		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+		[HttpStatusCodes.BAD_REQUEST]: jsonContent(
 			createErrorSchema(IdParamsSchema),
 			'Invalid id error'
 		),
@@ -92,7 +82,7 @@ const patch = createRoute({
 	responses: {
 		[HttpStatusCodes.OK]: jsonContent(selectBooksSchema, 'The updated books'),
 		[HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Book not found'),
-		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+		[HttpStatusCodes.BAD_REQUEST]: jsonContent(
 			createErrorSchema(IdParamsSchema),
 			'Invalid id error'
 		),
@@ -113,7 +103,7 @@ const remove = createRoute({
 	responses: {
 		[HttpStatusCodes.NO_CONTENT]: { description: 'The book was deleted' },
 		[HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Book not found'),
-		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContentOneOf(
+		[HttpStatusCodes.BAD_REQUEST]: jsonContentOneOf(
 			[createErrorSchema(patchBooksSchema), createErrorSchema(IdParamsSchema)],
 			'The validation error(s)'
 		),

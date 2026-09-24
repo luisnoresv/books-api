@@ -119,25 +119,27 @@ The server will start on `http://localhost:3000` (or your configured `PORT`).
 
 Once the server is running, you can access:
 
-- **OpenAPI Specification**: `http://localhost:3000/doc`
-- **Interactive API Reference** (Scalar UI): `http://localhost:3000/reference`
+- **OpenAPI Specification**: `http://localhost:3000/api/doc`
+- **Interactive API Reference** (Scalar UI): `http://localhost:3000/api/reference`
 
 ## API Endpoints
 
-| Method   | Path         | Description               |
-| -------- | ------------ | ------------------------- |
-| `GET`    | `/books`     | List all books            |
-| `POST`   | `/books`     | Create a new book         |
-| `GET`    | `/books/:id` | Get a specific book by ID |
-| `PATCH`  | `/books/:id` | Update a book by ID       |
-| `DELETE` | `/books/:id` | Delete a book by ID       |
+| Method   | Path             | Description               |
+| -------- | ---------------- | ------------------------- |
+| `GET`    | `/api/books`     | List all books            |
+| `POST`   | `/api/books`     | Create a new book         |
+| `GET`    | `/api/books/:id` | Get a specific book by ID |
+| `PATCH`  | `/api/books/:id` | Update a book by ID       |
+| `DELETE` | `/api/books/:id` | Delete a book by ID       |
+
+Validation failures return `400 Bad Request`.
 
 ### Example Request
 
 **Create a Book:**
 
 ```bash
-curl -X POST http://localhost:3000/books \
+curl -X POST http://localhost:3000/api/books \
   -H "Content-Type: application/json" \
   -d '{
     "name": "The Pragmatic Programmer",
@@ -148,7 +150,7 @@ curl -X POST http://localhost:3000/books \
 **Get All Books:**
 
 ```bash
-curl http://localhost:3000/books
+curl http://localhost:3000/api/books
 ```
 
 ## Testing

@@ -31,13 +31,15 @@ export const create = createRoute({
 	tags: ['Feature'],
 	responses: {
 		[HttpStatusCodes.OK]: jsonContent(selectSchema, 'Success'),
-		[HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+		[HttpStatusCodes.BAD_REQUEST]: jsonContent(
 			createErrorSchema(insertSchema),
 			'Validation errors',
 		),
 	},
 });
 ```
+
+Validation failures in this repo currently return `400 Bad Request`, wired through `src/openapi/default-hook.ts`.
 
 ## Handler Pattern
 
@@ -75,8 +77,11 @@ export const featureRouter = createRouter()
 ## Test Pattern
 
 ```typescript
-const client = testClient(createApp().route('/', featureRouter));
-const response = await client.feature.$post({ json: { ... } });
+const app = createApp().route('/api', featureRouter);
+const client = testClient(app);
+const response = await client.api.feature.$post({ json: { ... } });
 ```
+
+Use `/api` in both raw request assertions and typed client expectations so tests match the real app mount path.
 
 Reference implementation: `src/routes/books/` (routes, handlers, index, tests).
